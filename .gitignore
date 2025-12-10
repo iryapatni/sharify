@@ -1,0 +1,47 @@
+# ==========================
+# ENV & SECRETS (CRITICAL)
+# ==========================
+.env
+
+# ==========================
+# NODE
+# ==========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================
+# BUILD OUTPUTS
+# ==========================
+dist/
+dist-ssr/
+
+# ==========================
+# LOGS
+# ==========================
+logs
+*.log
+
+# ==========================
+# OS / EDITOR TRASH
+# ==========================
+.DS_Store
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==========================
+# VITE / LOCAL CONFIG
+# ==========================
+*.local
+
+# ==========================
+# VS CODE (KEEP EXTENSIONS)
+# ==========================
+.vscode/*
+!.vscode/extensions.json
