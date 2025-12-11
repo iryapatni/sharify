@@ -13,9 +13,13 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://sharify-frontend.onrender.com", // you will change this to your actual frontend URL
+  ],
   credentials: true
 }));
+
 
 app.use(express.json());
 
@@ -34,6 +38,17 @@ main().catch(err => console.log(err));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/borrow", borrowRequest);
+app.get("/", (req, res) => {
+  res.send("Sharify backend is running!");
+});
+
+// Handle undefined routes (404)
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found. Please check the URL.",
+  });
+});
 
 
 app.listen(PORT, ()=>{
