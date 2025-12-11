@@ -17,7 +17,7 @@ function MyRequests() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:8080/api/borrow/my-requests",
+        "https://sharify-vivy.onrender.com/api/borrow/my-requests",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -33,7 +33,7 @@ function MyRequests() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `http://localhost:8080/api/borrow/${requestId}/return`,
+        `https://sharify-vivy.onrender.com/api/borrow/${requestId}/return`,
         {
           method: "PUT",
           headers: {

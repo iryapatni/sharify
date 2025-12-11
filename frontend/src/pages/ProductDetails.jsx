@@ -18,7 +18,10 @@ function ProductDetails() {
     if (storedUser) setUser(JSON.parse(storedUser));
 
     const fetchProduct = async () => {
-      const res = await fetch(`http://localhost:8080/api/products/${id}`);
+      const res = await fetch(
+        `https://sharify-vivy.onrender.com/api/products/${id}`
+      );
+
       const data = await res.json();
       setProduct(data.product);
     };
@@ -39,18 +42,19 @@ function ProductDetails() {
       return;
     }
 
-    const response = await fetch("http://localhost:8080/api/borrow", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        itemId: product._id,
-        startDate,
-        endDate,
-      }),
-    });
+    const response = await fetch("https://sharify-vivy.onrender.com/api/borrow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          itemId: product._id,
+          startDate,
+          endDate,
+        }),
+      });
+
 
     const data = await response.json();
     alert(data.message);
@@ -61,12 +65,13 @@ function ProductDetails() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:8080/api/products/${product._id}`,
+      `https://sharify-vivy.onrender.com/api/products/${product._id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+
 
     const data = await response.json();
 

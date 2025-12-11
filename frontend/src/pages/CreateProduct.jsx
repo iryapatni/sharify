@@ -26,13 +26,14 @@ function CreateProduct(){
             formData.append("image", image);
         }
 
-        const response = await fetch("http://localhost:8080/api/products/create", {
+        const response = await fetch("https://sharify-vivy.onrender.com/api/products/create", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
             },
             body: formData
         });
+
 
         const data = await response.json();
 

@@ -17,7 +17,7 @@ function OwnerRequests() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:8080/api/borrow/owner-requests",
+        "https://sharify-vivy.onrender.com/api/borrow/owner-requests",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -31,10 +31,10 @@ function OwnerRequests() {
   const handleAction = async (id, status) => {
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:8080/api/borrow/${id}/${status}`, {
-      method: "PUT",
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    await fetch(`https://sharify-vivy.onrender.com/api/borrow/${id}/${status}`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
     setRequests(prev =>
       prev.map(r => (r._id === id ? { ...r, status } : r))
