@@ -13,10 +13,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const cors = require("cors");
 
 app.use(cors({
-  origin: [/\.onrender\.com$/],   // allow any subdomain that ends with .onrender.com
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
+  origin: "https://sharify-frontend.onrender.com",
+  credentials: true,
 }));
+
 
 
 app.use(express.json());
