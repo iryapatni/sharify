@@ -26,7 +26,7 @@ function CreateProduct(){
             formData.append("image", image);
         }
 
-        const response = await fetch("https://sharify-vivy.onrender.com/api/products/create", {
+       const response = await fetch("https://sharify-d4py.onrender.com/api/products/create", {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,

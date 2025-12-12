@@ -19,7 +19,7 @@ function ProductDetails() {
 
     const fetchProduct = async () => {
       const res = await fetch(
-        `https://sharify-vivy.onrender.com/api/products/${id}`
+        `https://sharify-d4py.onrender.com/api/products/${id}`
       );
 
       const data = await res.json();
@@ -42,7 +42,7 @@ function ProductDetails() {
       return;
     }
 
-    const response = await fetch("https://sharify-vivy.onrender.com/api/borrow", {
+    const response = await fetch("https://sharify-d4py.onrender.com/api/borrow", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ function ProductDetails() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `https://sharify-vivy.onrender.com/api/products/${product._id}`,
+      `https://sharify-d4py.onrender.com/api/products/${product._id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },

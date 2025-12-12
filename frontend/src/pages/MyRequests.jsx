@@ -17,7 +17,7 @@ function MyRequests() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "https://sharify-vivy.onrender.com/api/borrow/my-requests",
+       "https://sharify-d4py.onrender.com/api/borrow/my-requests",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -33,7 +33,7 @@ function MyRequests() {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `https://sharify-vivy.onrender.com/api/borrow/${requestId}/return`,
+        `https://sharify-d4py.onrender.com/api/borrow/${requestId}/return`,
         {
           method: "PUT",
           headers: {

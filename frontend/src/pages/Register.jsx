@@ -11,7 +11,7 @@ function Register(){
     const handleSubmit=async(e)=>{
         e.preventDefault();
 
-        const response = await fetch("https://sharify-vivy.onrender.com/api/auth/register", {
+        const response = await fetch("https://sharify-d4py.onrender.com/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

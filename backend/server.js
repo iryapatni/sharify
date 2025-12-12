@@ -1,74 +1,99 @@
+// backend/server.js
 require("dotenv").config();
 
-const PORT = process.env.PORT;
-const MONGO_URL = process.env.MONGO_URI;
-
-const mongoose = require("mongoose");
 const express = require("express");
-const app = express();
+const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 
-// Serve uploads folder
+const app = express();
+
+// PORT (Render provides process.env.PORT — fallback to 10000 for local/testing)
+const PORT = process.env.PORT || 10000;
+const MONGO_URL = process.env.MONGO_URI;
+
+// FRONTEND origin (use env var when possible)
+const FRONTEND_ORIGIN = process.env.FRONTEND_URL || "https://sharify-frontend.onrender.com";
+
+/**
+ * CORS configuration
+ * - allow only the frontend origin (do NOT set '*' when using credentials)
+ * - expose Authorization header if needed
+ * - enable credentials so cookies or Authorization header usage works
+ */
+const corsOptions = {
+  origin: FRONTEND_ORIGIN,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
+
+// Ensure preflight requests are handled by CORS (Express 4)
+app.options("*", cors(corsOptions));
+
+// Serve uploads directory (images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ----------- FIXED CORS (Express 5 compatible) -----------
-app.use(
-  cors({
-    origin: "https://sharify-frontend.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+// Parse JSON bodies
+app.use(express.json());
+// Optionally parse urlencoded (forms)
+app.use(express.urlencoded({ extended: true }));
 
-// Handle ALL preflight requests safely (Express 5)
+// Simple logger for startup troubleshooting (can be removed later)
 app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Origin", "https://sharify-frontend.onrender.com");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    return res.sendStatus(200);
-  }
+  // Avoid noisy logs in production, but helpful while debugging deploys
+  // console.log(`${new Date().toISOString()} ${req.method} ${req.originalUrl}`);
   next();
 });
 
-console.log("CORS ALLOWED ORIGIN:", "https://sharify-frontend.onrender.com");
-// ----------------------------------------------------------
-
-app.use(express.json());
-
-// Routes
+// Routes (keep these requires AFTER middleware)
 const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/products");
 const borrowRequest = require("./routes/borrowRequest");
 
-// DB connect
+// Connect to MongoDB
 async function main() {
-  await mongoose.connect(MONGO_URL);
-  console.log("Connected to database");
+  try {
+    await mongoose.connect(MONGO_URL);
+    console.log("Connected to database");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  }
 }
-main().catch(err => console.log(err));
+main();
 
+// Mount API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/borrow", borrowRequest);
 
-// Test endpoint
+// Root test route
 app.get("/", (req, res) => {
   res.send("Sharify backend is running!");
 });
 
-// 404 Handler
+// 404 handler (for unmatched routes)
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: "Route not found. Please check the URL.",
+    message: "Route not found. Please check the URL."
   });
 });
 
-// Start server
+// Global error handler (optional - helps with debugging)
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ message: "Server error" });
+});
+
+// Start server — listen on PORT provided by Render
 app.listen(PORT, () => {
+  console.log("CORS ALLOWED ORIGIN:", FRONTEND_ORIGIN);
   console.log("Connected to port:", PORT);
+  console.log("Sharify backend is live ✅");
 });

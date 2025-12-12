@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
 
     const response = await fetch(
-      "https://sharify-vivy.onrender.com/api/auth/login",  // backend deployed URL (replacing localhost)
+      "https://sharify-d4py.onrender.com/api/auth/login",  // backend deployed URL (replacing localhost)
       {
         method: "POST", // because react is sending data(email and password)
         headers: {

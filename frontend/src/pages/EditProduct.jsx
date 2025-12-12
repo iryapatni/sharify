@@ -15,7 +15,7 @@ function EditProduct(){
     const { id } = useParams();
 
    useEffect(()=>{
-        fetch(`https://sharify-vivy.onrender.com/api/products/${id}`)
+        fetch(`https://sharify-d4py.onrender.com/api/products/${id}`)
         .then(res => res.json())
         .then(data => {
             setTitle(data.product.title);
@@ -42,7 +42,7 @@ function EditProduct(){
             formData.append("image", image);
         }
 
-        const response = await fetch(`https://sharify-vivy.onrender.com/api/products/${id}`, {
+        const response = await fetch(`https://sharify-d4py.onrender.com/api/products/${id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`
