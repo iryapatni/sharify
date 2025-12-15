@@ -15,14 +15,16 @@ const MONGO_URL = process.env.MONGO_URI;
 // FRONTEND origin (use env var when possible)
 const FRONTEND_ORIGIN = process.env.FRONTEND_URL || "https://sharify-frontend.onrender.com";
 
-/**
+/*
  * CORS configuration
  * - allow only the frontend origin (do NOT set '*' when using credentials)
  * - expose Authorization header if needed
  * - enable credentials so cookies or Authorization header usage works
  */
 const corsOptions = {
-  origin: FRONTEND_ORIGIN,
+  origin: (origin, callback) => {
+    callback(null, FRONTEND_ORIGIN);
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept"],
   credentials: true,
